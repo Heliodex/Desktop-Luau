@@ -3,15 +3,13 @@ package main
 import (
 	"fmt"
 
-	"Desktop-Luau/adder"
+	"Desktop-Luau/luau-wrap"
 )
 
 func main() {
-	a := adder.NewAdder()
-	defer adder.DeleteAdder(a)
+	fmt.Println("hello world")
 
-	for i := range 10 {
-		a.Add(i)
-		fmt.Printf("value %d\n", a.Get())
-	}
+	src := "print(1)"
+	var bytecodeSize *int64
+	luau.Luau_compile(src, int64(len(src)), nil, bytecodeSize)
 }
