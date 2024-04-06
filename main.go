@@ -1,15 +1,23 @@
 package main
 
-import (
-	"fmt"
+import "fmt"
 
-	"Desktop-Luau/luau-wrap"
-)
+/*
+#cgo CFLAGS: -I. -Igcc11include
+#cgo LDFLAGS: -lstdc++ -Lluau/build/release -Lgcc11include -lluauast -lluaucompiler -lluauvm
+
+#include "bridge.h"
+*/
+import "C"
 
 func main() {
 	fmt.Println("hello world")
 
-	src := "print(1)"
-	var bytecodeSize *int64
-	luau.Luau_compile(src, int64(len(src)), nil, bytecodeSize)
+	source := "print(1)"
+
+	// char* bytecode = luau_compile(source, strlen(source), NULL, &bytecodeSize);
+
+	bytecode := C.my_luau_compile(C.CString(source), C.ulong(len(source)), nil, nil)
+
+	fmt.Println(bytecode)
 }
